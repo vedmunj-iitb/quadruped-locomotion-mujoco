@@ -1,0 +1,6 @@
+.venv/
+third_party/
+__pycache__/
+.pytest_cache/
+*.gif
+!media/*.gif
