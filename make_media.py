@@ -1,4 +1,6 @@
-"""Makes every picture and clip in media/ and prints the numbers quoted in the README.
+"""Makes the pictures and clips in media/ and prints the numbers quoted in the README.
+
+extra_media.py makes three more: the side-by-side course clip, the front push clip and the still.
 
 Written in 2026.
 

@@ -19,6 +19,11 @@ Python. Everything runs in simulation. No real robot was used.
 
 ## All four together
 
+![The full stack crossing the 8 cm gap. Green discs: the spots the planner picked. Arrows: how hard the MPC plans each foot to push.](media/stack_still.png)
+
+*The full stack crossing the 8 cm gap: front feet across, one rear foot swinging over it. Green
+discs: the spots the planner picked. Arrows: how hard the MPC plans each foot to push.*
+
 Every 2 ms:
 
 1. The gait clock says which feet are down now and which lift next.
@@ -33,6 +38,12 @@ at a commanded 0.4 m/s, the full stack got across: 3.79 m, no fall and no foot i
 the foothold planner, with each foot landing on its first guess, one front foot was aimed into the
 first gap at 1.7 s and the other dropped into it at 2.2 s. The body tipped past 30 degrees, up to
 59, which the code counts as a fall from 2.6 s, and the robot then stayed stuck at the gap.
+
+![The same course seen from beside the first gap, at half speed. Left: with the foothold planner. Right: each foot lands on its first guess, a front foot drops into the gap and the robot ends up stuck across it.](media/stack_with_without_planner.gif)
+
+*The first gap, at half speed. Left: with the foothold planner. Right: each foot lands on its
+first guess, a front foot drops into the gap and the robot ends up stuck across it. Green discs:
+where each foot is sent, on the right its first guess.*
 
 ![How far the robot got along the course, with and without the foothold planner](media/stack_ablation.png)
 
@@ -72,7 +83,16 @@ a second. Standing, it followed body pose targets within about 1 degree and 1 mm
 from 0.1 s pushes of up to 125 N sideways (130 N tipped it over). On three feet it moved the fourth
 along a circle in the air within 4 mm.
 
-![The whole body controller standing: a push (red arrow) and the feet pushing back (green)](media/wbc_push.gif)
+![The whole body controller standing, seen from the front right, 4 times slower around each push: the push (red arrow) and the ground forces on the feet (green)](media/wbc_push_front.gif)
+
+*Standing, seen from the front right, 4 times slower around each push: 0.1 s pushes of 80 N
+sideways, 150 N forwards and 120 N sideways. At the end a 150 N sideways push tips it over. Red:
+the push. Green: the ground forces on the feet.*
+
+![On three feet, the whole body controller moves the front left foot along the yellow dots, twice round a circle of 4 cm radius in the air](media/wbc_swing.gif)
+
+*On three feet, the front left foot follows the yellow dots twice round a circle of 4 cm radius in
+the air.*
 
 ## Run it
 
@@ -88,12 +108,13 @@ python3 -m venv .venv
 The foothold, gait and stack demos open the viewer, the MPC and whole body controller demos need
 `--view`, and any demo writes a GIF instead with `--gif file.gif`. The viewer of the foothold, MPC,
 whole body controller and stack demos draws the discs, arrows and dots live, and so do the clips
-that `make_media.py` writes. A demo's `--gif` shows the robot only, except for the stack demo.
+in `media/`. A demo's `--gif` shows the robot only, except for the stack demo.
 
 ```bash
 .venv/bin/python -m stack.demo --raibert-only     # without the foothold planner
 .venv/bin/python -m stack.demo --flat --vx 0.4    # flat ground, one speed
-.venv/bin/python make_media.py                    # every GIF and plot in media/
+.venv/bin/python make_media.py                    # the GIFs and plots in media/
+.venv/bin/python extra_media.py                   # the side-by-side course clip, the front push clip, the still
 .venv/bin/python -m pytest                        # 69 tests, about 50 s
 ```
 
